@@ -277,3 +277,37 @@ echo "英语词汇网页已更新到iCloud Drive"
 
 # 清理临时文件
 rm /tmp/english_vocabulary.html
+
+# Git 提交和同步到 GitHub
+echo "🔄 Git 提交和 GitHub 同步..."
+
+# 检查是否有未提交的更改
+if git status --porcelain | grep -q "^\s*M"; then
+    echo "📝 提交词汇更新到 Git..."
+    
+    # 获取当前词汇数量用于提交信息
+    WORD_COUNT=$(grep -c "word:" /tmp/english_vocabulary.html 2>/dev/null || echo "0")
+    
+    # 添加所有更改
+    git add .
+    
+    # 提交更改
+    git commit -m "Update vocabulary: Added new word(s) - $(date '+%Y-%m-%d %H:%M')"
+    
+    # 推送到远程仓库（如果存在）
+    if git remote -v | grep -q "origin"; then
+        echo "🌐 推送到 GitHub..."
+        git push origin main
+        echo "✅ 成功推送到 GitHub！"
+    else
+        echo "⚠️  远程仓库未配置，请运行以下命令设置："
+        echo "   git remote add origin https://github.com/huyg0415/english-vocabulary-learning.git"
+        echo "   git push -u origin main"
+    fi
+else
+    echo "✅ 没有新的更改需要提交"
+fi
+
+echo "🎉 词汇更新完成！"
+echo "📱 网页地址：https://huyg0415.github.io/english-vocabulary-learning/"
+echo "☁️  iCloud：已在所有 Apple 设备上同步"
