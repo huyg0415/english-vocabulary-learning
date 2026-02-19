@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daily Zen Vocabulary</title>
+    <title>Daily Vocabulary</title>
     <style>
-        /* --- 样式区域 (无需修改) --- */
         :root {
             --bg-color: #f0f2f5;
             --card-bg: #ffffff;
@@ -27,7 +26,6 @@
         h1 { font-weight: 300; letter-spacing: 2px; margin-bottom: 10px; color: var(--text-main); }
         .date { color: var(--text-sub); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
         
-        /* 网格布局 */
         .container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -36,7 +34,6 @@
             width: 100%;
         }
 
-        /* 卡片 3D 结构 */
         .card-container {
             background-color: transparent;
             height: 400px;
@@ -70,14 +67,12 @@
             box-sizing: border-box;
         }
         
-        /* 正面样式 */
         .front { border-bottom: 5px solid; }
         .word-tag { background: #dfe6e9; color: var(--text-sub); padding: 5px 12px; border-radius: 15px; font-size: 0.8rem; margin-bottom: 20px; font-weight: 600; }
         .word { font-size: 2.5rem; font-weight: 700; color: var(--text-main); margin: 0; }
         .phonetic { font-family: 'Arial Unicode MS', sans-serif; color: var(--text-sub); font-size: 1.2rem; margin-top: 10px; font-style: italic; }
         .hint-icon { margin-top: 40px; color: #b2bec3; font-size: 0.9rem; opacity: 0.7; }
 
-        /* 背面样式 */
         .back { transform: rotateY(180deg); text-align: left; align-items: flex-start; padding: 30px; }
         .definition { font-size: 1.2rem; font-weight: bold; color: var(--text-main); margin-bottom: 15px; width: 100%; border-bottom: 1px solid #eee; padding-bottom: 10px; }
         .example-box { background: #f9f9f9; padding: 12px; border-radius: 8px; margin-bottom: 15px; width: 100%; }
@@ -85,14 +80,12 @@
         .cn-sent { font-size: 0.85rem; color: #636e72; }
         .memory-hook { font-size: 0.85rem; color: #e17055; background: #ffeaa740; padding: 8px; border-radius: 6px; width: 100%; }
         
-        /* 播放按钮 */
         .audio-btn { position: absolute; top: 20px; right: 20px; background: none; border: none; cursor: pointer; font-size: 1.2rem; transition: transform 0.2s; }
         .audio-btn:hover { transform: scale(1.2); }
     </style>
 </head>
 
 <body>
-
     <header>
         <h1>Daily Vocabulary</h1>
         <div class="date" id="stats-line">Loading...</div>
@@ -102,10 +95,6 @@
     </div>
 
     <script>
-        // ==========================================
-        // 🟢 数据配置区域 (START) 🟢
-        // 警告：不要删除 const words = [ 这一行！
-        // ==========================================
         const words = [
             {
                 word: "Relay",
@@ -154,7 +143,7 @@
                 definition: "部署，部署行动；军事术语指部队的部署",
                 sentence_en: "The software <b>deployment</b> was successful last night.",
                 sentence_cn: "软件部署昨晚成功了。",
-                memory_hook: "deploy (部署) + ment (名词后缀)，想想软件开发中的"部署上线"，就像军队"部署兵力"。",
+                memory_hook: "deploy (部署) + ment (名词后缀)，想想软件开发中的部署上线，就像军队部署兵力。",
                 color: "#00b894"
             },
             {
@@ -198,9 +187,6 @@
                 color: "#55efc4"
             }
         ];
-        // ==========================================
-        // 🔴 逻辑区域 (End of Data) 🔴
-        // ==========================================
 
         function renderCards() {
             const container = document.getElementById('card-area');
