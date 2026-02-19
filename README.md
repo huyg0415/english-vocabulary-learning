@@ -16,15 +16,16 @@ A comprehensive English vocabulary learning repository with interactive cards an
 2. **Jam** - 堵塞，果酱，拥挤
 3. **Agent** - 代理，代理人，特工
 4. **Markdown** - 标记语言，文本格式化
-5. **vocab** - 词汇，词汇表，词汇量
-6. **tradeoff** - 权衡，妥协，取舍
-7. **vibe coding** - 编程时的氛围或状态
-8. **telegram** - 电报，电文；Telegram聊天软件
+5. **Deployment** - 部署，部署行动；军事术语指部队的部署
+6. **Tradeoff** - 权衡，妥协，取舍
+7. **Vibe Coding** - 编程时的氛围或状态，沉浸式编程体验
+8. **Telegram** - 电报，电文；Telegram聊天软件
+9. **Vocab** - 词汇，词汇表，词汇量
 
 ## 📱 Access Options
 
 ### 1. Local HTML
-Open `english_vocabulary.html` in any web browser
+Open `index.html` in any web browser
 
 ### 2. GitHub Pages
 Visit: https://huyg0415.github.io/english-vocabulary-learning/
@@ -48,7 +49,7 @@ Access via mobile devices with iCloud Drive
 
 ## 🔧 Files Structure
 
-- `english_vocabulary.html` - Main vocabulary learning interface
+- `index.html` - Main vocabulary learning interface
 - `memory/` - Daily learning records and notes
 - `update_english_vocabulary.sh` - Script to update vocabulary files
 - `README.md` - This documentation
@@ -56,10 +57,20 @@ Access via mobile devices with iCloud Drive
 ## 📝 Update Workflow
 
 The update script automatically:
-- Updates the HTML vocabulary page
+- Updates the index.html vocabulary page
 - Updates memory records
 - Syncs to iCloud Drive
 - Commits to GitHub (when configured)
+
+## 🌐 GitHub Pages Access
+
+**Primary Access**: https://huyg0415.github.io/english-vocabulary-learning/
+
+The vocabulary page automatically loads as the GitHub Pages homepage, providing:
+- 3D interactive vocabulary cards
+- Audio pronunciation support
+- Mobile-responsive design
+- Progress tracking features
 
 ## 🌐 GitHub Pages Setup
 
