@@ -3,238 +3,255 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>英语词汇巩固</title>
+    <title>Daily Zen Vocabulary</title>
     <style>
+        /* --- 样式区域 (无需修改) --- */
+        :root {
+            --bg-color: #f0f2f5;
+            --card-bg: #ffffff;
+            --text-main: #2d3436;
+            --text-sub: #636e72;
+            --shadow: 0 10px 20px rgba(0,0,0,0.08);
+        }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #f5f5f5;
+            font-family: 'Segoe UI', 'Roboto', sans-serif;
+            background-color: var(--bg-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 40px 20px;
         }
+        header { text-align: center; margin-bottom: 40px; }
+        h1 { font-weight: 300; letter-spacing: 2px; margin-bottom: 10px; color: var(--text-main); }
+        .date { color: var(--text-sub); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
+        
+        /* 网格布局 */
         .container {
-            background-color: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            width: 100%;
         }
-        h1 {
-            color: #2c3e50;
+
+        /* 卡片 3D 结构 */
+        .card-container {
+            background-color: transparent;
+            height: 400px;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+        .card {
+            position: relative;
+            width: 100%;
+            height: 100%;
             text-align: center;
-            margin-bottom: 30px;
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-style: preserve-3d;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
         }
-        .word-card {
-            background-color: #f8f9fa;
-            border-left: 4px solid #3498db;
-            padding: 15px;
-            margin-bottom: 20px;
-            border-radius: 5px;
-            transition: transform 0.3s ease;
+        .card-container.flipped .card { transform: rotateY(180deg); }
+        .front, .back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 20px;
+            background: var(--card-bg);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
         }
-        .word-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-        .word-title {
-            font-size: 1.2em;
-            font-weight: bold;
-            color: #2980b9;
-            margin-bottom: 10px;
-        }
-        .word-meaning {
-            margin-bottom: 10px;
-            color: #555;
-        }
-        .example {
-            background-color: #e8f4f8;
-            padding: 10px;
-            border-radius: 5px;
-            margin-top: 10px;
-            font-style: italic;
-        }
-        .memory-tip {
-            background-color: #fff8e1;
-            padding: 10px;
-            border-radius: 5px;
-            margin-top: 10px;
-            border-left: 3px solid #ffc107;
-        }
-        .footer {
-            text-align: center;
-            margin-top: 30px;
-            color: #7f8c8d;
-            font-size: 0.9em;
-        }
-        .update-time {
-            font-size: 0.8em;
-            color: #95a5a6;
-            text-align: right;
-            margin-bottom: 20px;
-        }
-        .stats {
-            background-color: #e8f5e8;
-            padding: 15px;
-            border-radius: 5px;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-        .stats-number {
-            font-size: 2em;
-            font-weight: bold;
-            color: #27ae60;
-        }
+        
+        /* 正面样式 */
+        .front { border-bottom: 5px solid; }
+        .word-tag { background: #dfe6e9; color: var(--text-sub); padding: 5px 12px; border-radius: 15px; font-size: 0.8rem; margin-bottom: 20px; font-weight: 600; }
+        .word { font-size: 2.5rem; font-weight: 700; color: var(--text-main); margin: 0; }
+        .phonetic { font-family: 'Arial Unicode MS', sans-serif; color: var(--text-sub); font-size: 1.2rem; margin-top: 10px; font-style: italic; }
+        .hint-icon { margin-top: 40px; color: #b2bec3; font-size: 0.9rem; opacity: 0.7; }
+
+        /* 背面样式 */
+        .back { transform: rotateY(180deg); text-align: left; align-items: flex-start; padding: 30px; }
+        .definition { font-size: 1.2rem; font-weight: bold; color: var(--text-main); margin-bottom: 15px; width: 100%; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+        .example-box { background: #f9f9f9; padding: 12px; border-radius: 8px; margin-bottom: 15px; width: 100%; }
+        .en-sent { font-size: 0.95rem; color: #2d3436; margin-bottom: 5px; line-height: 1.4; }
+        .cn-sent { font-size: 0.85rem; color: #636e72; }
+        .memory-hook { font-size: 0.85rem; color: #e17055; background: #ffeaa740; padding: 8px; border-radius: 6px; width: 100%; }
+        
+        /* 播放按钮 */
+        .audio-btn { position: absolute; top: 20px; right: 20px; background: none; border: none; cursor: pointer; font-size: 1.2rem; transition: transform 0.2s; }
+        .audio-btn:hover { transform: scale(1.2); }
     </style>
 </head>
+
 <body>
-    <div class="container">
-        <div class="update-time">最后更新: 2026年2月19日 10:30</div>
-        
-        <div class="stats">
-            <div class="stats-number">9</div>
-            <div>个词汇正在学习中</div>
-        </div>
-        
-        <h1>英语词汇巩固</h1>
-        
-        <div class="word-card">
-            <div class="word-title">vibe coding</div>
-            <div class="word-meaning"><strong>中文意思:</strong> 编程时的氛围或状态，沉浸式编程体验</div>
-            <div class="example">"I'm in a great vibe coding mood tonight!" (今晚我处于超棒的编程氛围中！)</div>
-            <div class="example">"The coffee shop really helps with my vibe coding sessions." (咖啡厅真的有助于我的编程氛围。)</div>
-            <div class="example">"After that meeting, I'm ready for some solo vibe coding time." (开完那个会议后，我准备好享受一些独处的编程时光了。)</div>
-            <div class="memory-tip"><strong>记忆技巧:</strong> vibe（氛围）+ coding（编程），描述编程时的专注和舒适状态</div>
-        </div>
-        
-        <div class="word-card">
-            <div class="word-title">relay</div>
-            <div class="word-meaning"><strong>中文意思:</strong> 中继，转播，传递</div>
-            <div class="example">"The signal is relayed through multiple satellites." (信号通过多个卫星中继传输。)</div>
-            <div class="example">"She relayed the message to her colleague." (她把消息转达给了同事。)</div>
-            <div class="memory-tip"><strong>记忆技巧:</strong> 想象信号像接力赛一样传递</div>
-        </div>
-        
-        <div class="word-card">
-            <div class="word-title">jam</div>
-            <div class="word-meaning"><strong>中文意思:</strong> 堵塞，果酱，拥挤</div>
-            <div class="example">"There's a traffic jam on the highway." (高速公路上堵车了。)</div>
-            <div class="example">"I like strawberry jam on my toast." (我喜欢在吐司上涂草莓果酱。)</div>
-            <div class="example">"The room was jam-packed with people." (房间里挤满了人。)</div>
-            <div class="memory-tip"><strong>记忆技巧:</strong> 堵塞和果酱都有"黏稠、阻塞"的含义</div>
-        </div>
-        
-        <div class="word-card">
-            <div class="word-title">agent</div>
-            <div class="word-meaning"><strong>中文意思:</strong> 代理，代理人，特工</div>
-            <div class="example">"He works as a travel agent." (他是一名旅行代理人。)</div>
-            <div class="example">"The secret agent completed the mission." (特工完成了任务。)</div>
-            <div class="example">"The software agent automates the backup process." (软件代理自动执行备份过程。)</div>
-            <div class="memory-tip"><strong>记忆技巧:</strong> 想象特工执行任务</div>
-        </div>
-        
-        <div class="word-card">
-            <div class="word-title">telegram</div>
-            <div class="word-meaning"><strong>中文意思:</strong> 电报，电文；Telegram聊天软件</div>
-            <div class="example">"The telegram arrived early in the morning." (电报一大早就收到了。)</div>
-            <div class="example">"I sent him a telegram to congratulate him on his birthday." (我给他发了一封电报祝贺他生日快乐。)</div>
-            <div class="example">"Many people use Telegram for secure messaging." (很多人使用Telegram进行安全消息传递。)</div>
-            <div class="memory-tip"><strong>记忆技巧:</strong> Tele（远距离）+ gram（文字）= 远距离传递的文字 = 电报，现代指代同名聊天软件Telegram，主打端到端加密</div>
-        </div>
-        
-        <div class="word-card">
-            <div class="word-title">markdown</div>
-            <div class="word-meaning"><strong>中文意思:</strong> 标记语言，文本格式化</div>
-            <div class="example">"I use markdown to write my notes." (我用markdown来写笔记。)</div>
-            <div class="example">"This document is written in markdown format." (这个文档是用markdown格式编写的。)</div>
-            <div class="example">"Markdown makes text formatting easy and readable." (Markdown让文本格式化变得简单易读。)</div>
-            <div class="memory-tip"><strong>记忆技巧:</strong> 想象用标记来格式化文本</div>
-        </div>
-        
-        <div class="word-card">
-            <div class="word-title">deployment</div>
-            <div class="word-meaning"><strong>中文意思:</strong> 部署，部署行动；军事术语指部队的部署</div>
-            <div class="example">"The software deployment was successful last night." (软件部署昨晚成功了。)</div>
-            <div class="example">"The company is planning a new product deployment strategy." (公司正在规划新的产品部署策略。)</div>
-            <div class="example">"Military deployment requires careful planning and coordination." (军事部署需要仔细的计划和协调。)</div>
-            <div class="memory-tip"><strong>记忆技巧:</strong> deploy（部署）+ ment（名词后缀），想想软件开发中的"部署上线"，就像军队"部署兵力"</div>
-        </div>
-        
-        <div class="word-card">
-            <div class="word-title">tradeoff</div>
-            <div class="word-meaning"><strong>中文意思:</strong> 权衡，妥协，取舍</div>
-            <div class="example">"There's a tradeoff between quality and price." (质量和价格之间存在权衡。)</div>
-            <div class="example">"In business, you often have to make tradeoffs." (在商业中，你经常需要做出权衡。)</div>
-            <div class="example">"The design represents a good tradeoff between performance and usability." (这个设计在性能和可用性之间取得了很好的平衡。)</div>
-            <div class="memory-tip"><strong>记忆技巧:</strong> trade（交易）+ off（离开），为了得到一些东西而放弃另一些东西</div>
-        </div>
-        
-        <div class="word-card">
-            <div class="word-title">vocab</div>
-            <div class="word-meaning"><strong>中文意思:</strong> 词汇，词汇表，词汇量</div>
-            <div class="example">"My English vocab has improved a lot recently." (我的英语词汇量最近进步很大。)</div>
-            <div class="example">"It's important to expand your academic vocab." (扩展你的学术词汇量很重要。)</div>
-            <div class="example">"The app helps you build your vocab through daily practice." (这个应用通过日常练习帮助你构建词汇量。)</div>
-            <div class="memory-tip"><strong>记忆技巧:</strong> vocabulary的缩写，记住"vocab"就是"词汇"的意思</div>
-        </div>
-        
-        <div class="footer">
-            <p>每日词汇巩固 - 帮助您记住常用英文词汇</p>
-            <p>如有需要，可以随时添加新词汇或调整内容</p>
-            <p>🌐 访问: https://huyg0415.github.io/english-vocabulary-learning/</p>
-        </div>
+
+    <header>
+        <h1>Daily Vocabulary</h1>
+        <div class="date" id="stats-line">Loading...</div>
+    </header>
+
+    <div class="container" id="card-area">
     </div>
-    
+
     <script>
-        // 添加卡片翻转功能
-        document.querySelectorAll('.word-card').forEach(card => {
-            card.style.cursor = 'pointer';
-            card.addEventListener('click', function() {
-                this.style.transform = this.style.transform === 'scale(1.05)' ? 'scale(1)' : 'scale(1.05)';
-            });
-        });
-        
-        // 添加进度跟踪
-        let completedCards = new Set();
-        document.querySelectorAll('.word-card').forEach((card, index) => {
-            card.addEventListener('dblclick', function() {
-                if (completedCards.has(index)) {
-                    completedCards.delete(index);
-                    this.style.borderLeft = '4px solid #3498db';
-                } else {
-                    completedCards.add(index);
-                    this.style.borderLeft = '4px solid #27ae60';
-                }
-                updateProgress();
-            });
-        });
-        
-        function updateProgress() {
-            const total = document.querySelectorAll('.word-card').length;
-            const completed = completedCards.size;
-            const percentage = Math.round((completed / total) * 100);
+        // ==========================================
+        // 🟢 数据配置区域 (START) 🟢
+        // 警告：不要删除 const words = [ 这一行！
+        // ==========================================
+        const words = [
+            {
+                word: "Relay",
+                phonetic: "[ˈriːleɪ]",
+                type: "Verb / Noun",
+                definition: "中继；转播；接力",
+                sentence_en: "Satellites <b>relay</b> signals across the ocean.",
+                sentence_cn: "卫星将信号转播到大洋彼岸。",
+                memory_hook: "想象接力赛跑 (Relay race)，棒子被\"传递/中继\"给下一个人。",
+                color: "#74b9ff"
+            },
+            {
+                word: "Jam",
+                phonetic: "[dʒæm]",
+                type: "Noun / Verb",
+                definition: "果酱；堵塞；卡住",
+                sentence_en: "The printer paper is <b>jammed</b> again.",
+                sentence_cn: "打印机纸张又卡住了。",
+                memory_hook: "Traffic jam (交通堵塞) 就像瓶子里的果酱 (Jam) 一样挤得满满的。",
+                color: "#ff7675"
+            },
+            {
+                word: "Agent",
+                phonetic: "[ˈeɪdʒənt]",
+                type: "Noun",
+                definition: "代理人；特工；动因",
+                sentence_en: "He works as a real estate <b>agent</b>.",
+                sentence_cn: "他是一名房地产经纪人。",
+                memory_hook: "007 is a secret <b>agent</b>. (007是个秘密特工)。",
+                color: "#a29bfe"
+            },
+            {
+                word: "Markdown",
+                phonetic: "[ˈmɑːkdəʊn]",
+                type: "Noun",
+                definition: "标记语言；减价",
+                sentence_en: "GitHub README files use <b>Markdown</b>.",
+                sentence_cn: "GitHub的自述文件使用Markdown编写。",
+                memory_hook: "Mark (标记) + Down (写下/降价)。程序员写文档的利器。",
+                color: "#2d3436"
+            },
+            {
+                word: "Deployment",
+                phonetic: "[dɪˈplɔɪmənt]",
+                type: "Noun",
+                definition: "部署，部署行动；军事术语指部队的部署",
+                sentence_en: "The software <b>deployment</b> was successful last night.",
+                sentence_cn: "软件部署昨晚成功了。",
+                memory_hook": "deploy (部署) + ment (名词后缀)，想想软件开发中的\"部署上线\"，就像军队\"部署兵力\"。",
+                color: "#00b894"
+            },
+            {
+                word: "Tradeoff",
+                phonetic: "[ˈtreɪdɔːf]",
+                type: "Noun",
+                definition: "权衡，妥协，取舍",
+                sentence_en: "There's a <b>tradeoff</b> between quality and price.",
+                sentence_cn: "质量和价格之间存在权衡。",
+                memory_hook: "trade (交易) + off (离开)，为了得到一些东西而放弃另一些东西。",
+                color: "#e17055"
+            },
+            {
+                word: "Vibe Coding",
+                phonetic: "[vaɪb ˈkoʊdɪŋ]",
+                type: "Noun",
+                definition: "编程时的氛围或状态，沉浸式编程体验",
+                sentence_en: "I'm in a great <b>vibe coding</b> mood tonight!",
+                sentence_cn: "今晚我处于超棒的编程氛围中！",
+                memory_hook: "vibe (氛围) + coding (编程)，描述编程时的专注和舒适状态。",
+                color: "#0984e3"
+            },
+            {
+                word: "Telegram",
+                phonetic: "[ˈtelɪɡræm]",
+                type: "Noun",
+                definition: "电报，电文；Telegram聊天软件",
+                sentence_en: "Many people use <b>Telegram</b> for secure messaging.",
+                sentence_cn: "很多人使用Telegram进行安全消息传递。",
+                memory_hook: "Tele (远距离) + gram (文字) = 远距离传递的文字 = 电报，现代指代同名聊天软件Telegram，主打端到端加密。",
+                color: "#0088cc"
+            },
+            {
+                word: "Vocab",
+                phonetic: "[ˈvækb]",
+                type: "Noun",
+                definition: "词汇，词汇表，词汇量",
+                sentence_en: "Building your <b>vocab</b> is essential for language learning.",
+                sentence_cn: "建立词汇量对语言学习至关重要。",
+                memory_hook: "Vocab (vocabulary) 就是你的词汇库，像图书馆一样丰富。",
+                color: "#55efc4"
+            }
+        ];
+        // ==========================================
+        // 🔴 逻辑区域 (End of Data) 🔴
+        // ==========================================
+
+        function renderCards() {
+            const container = document.getElementById('card-area');
+            const stats = document.getElementById('stats-line');
             
-            const statsDiv = document.querySelector('.stats');
-            if (statsDiv) {
-                statsDiv.innerHTML = `
-                    <div class="stats-number">${completed}/${total}</div>
-                    <div>已完成 ${percentage}%</div>
-                `;
+            if (typeof words === 'undefined' || !words) {
+                stats.innerText = "Error: Words data is missing!";
+                return;
+            }
+
+            stats.innerText = `Focus & Learn • ${words.length} New Words`;
+            container.innerHTML = '';
+
+            words.forEach((item) => {
+                const cardHTML = `
+                <div class="card-container" onclick="this.classList.toggle('flipped')">
+                    <div class="card">
+                        <div class="front" style="border-bottom-color: ${item.color || '#333'}">
+                            <button class="audio-btn" onclick="playAudio(event, '${item.word}')">🔊</button>
+                            <span class="word-tag">${item.type}</span>
+                            <h2 class="word">${item.word}</h2>
+                            <div class="phonetic">${item.phonetic}</div>
+                            <div class="hint-icon">👆 Tap to flip</div>
+                        </div>
+                        <div class="back">
+                            <div class="definition">${item.definition}</div>
+                            <div class="example-box">
+                                <div class="en-sent">${item.sentence_en}</div>
+                                <div class="cn-sent">${item.sentence_cn}</div>
+                            </div>
+                            <div class="memory-hook">
+                                💡 <b>记忆技巧：</b><br>${item.memory_hook}
+                            </div>
+                        </div>
+                    </div>
+                </div>`;
+                container.innerHTML += cardHTML;
+            });
+        }
+
+        function playAudio(event, text) {
+            event.stopPropagation();
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'en-US';
+                utterance.rate = 0.9;
+                window.speechSynthesis.speak(utterance);
             }
         }
-        
-        // 添加页面加载动画
-        window.addEventListener('load', function() {
-            document.querySelectorAll('.word-card').forEach((card, index) => {
-                card.style.opacity = '0';
-                card.style.transform = 'translateY(20px)';
-                setTimeout(() => {
-                    card.style.transition = 'all 0.5s ease';
-                    card.style.opacity = '1';
-                    card.style.transform = 'translateY(0)';
-                }, index * 100);
-            });
-        });
+
+        renderCards();
     </script>
 </body>
 </html>
