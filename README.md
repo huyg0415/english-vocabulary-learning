@@ -7,7 +7,7 @@ A comprehensive English vocabulary learning repository with interactive cards an
 - **Interactive Vocabulary Cards**: 3D flip cards with pronunciation, examples, and memory hooks
 - **Daily Learning System**: Structured vocabulary building with examples in English and Chinese
 - **Mobile-Friendly**: Optimized for iOS and Android devices
-- **Auto-Sync**: iCloud integration for seamless access across Apple devices
+- **Git Integration**: Automatic version control and backup
 - **GitHub Pages**: Web-accessible vocabulary page
 
 ## 🎯 Current Vocabulary List
@@ -30,8 +30,8 @@ Open `index.html` in any web browser
 ### 2. GitHub Pages
 Visit: https://huyg0415.github.io/english-vocabulary-learning/
 
-### 3. iCloud Drive
-Access via mobile devices with iCloud Drive
+### 3. GitHub Pages
+Primary access via GitHub Pages
 
 ## 🛠️ Usage
 
