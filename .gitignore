@@ -1,0 +1,30 @@
+# OpenClaw 配置和隐私文件
+openclaw.json
+.openclaw/
+
+# 个人文件
+AGENTS.md
+BOOTSTRAP.md
+SOUL.md
+TOOLS.md
+USER.md
+IDENTITY.md
+MEMORY.md
+HEARTBEAT.md
+memory/
+
+# 脚本和临时文件
+*.sh
+*.backup
+OpenClaw-DeepReeder/
+
+# 报告和日志
+CONTEXT_OPTIMIZATION_REPORT.md
+VOCABULARY_FIX_REPORT.md
+vocabulary_update_log.md
+vocabulary_latest.html
+manual_github_setup.md
+
+# 只保留英语学习相关
+# index.html - 词汇学习网页
+# README.md - 项目说明
